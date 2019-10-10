@@ -230,11 +230,11 @@
 					this.score++;
 				}
 					
-				axios.get(`score.php?score=${this.score}&redirect=score.php`).then((response)=>{
-				console.log(response.data);
+				// axios.get(`score.php?score=${this.score}&redirect=score.php`).then((response)=>{
+				// console.log(response.data);
 				this.finished=true;
 				//console.log(this.questions.length);
-			})
+			//})
 			},
 			refresh(){
 				location.reload()
