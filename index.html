@@ -2,6 +2,11 @@
 <html>
 <head>
 	<title>CBT TEST</title>
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
 	<!-- scripts & css -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 	<script src='js/axios.js'></script>
@@ -15,6 +20,7 @@
 </head>
 <body>
  <div id="app">
+	 <div class="wrap pb-4 mb-4">
 	<!-- header -->
 	<section>
 		<div class="container-fluid">
@@ -42,7 +48,7 @@
 												Instruction</p>
 											<p class="font-weight-light">This test comprise of 8 questions to be answered in 60 seconds (1 minute)
 												and the score will be displayed afterwards. <span class="text-danger font-weight-italic">Please, do not refresh the page while the test is going on.
-				</span></p></div>
+							</span></p></div>
 								</div>	
 								<div class="row" v-if="start==false && finished==false">
 									<div class="d-flex col-12 justify-content-center mt-4">
@@ -80,7 +86,7 @@
 					</div>
 				  </form>
 				</div>
-				<div class="modal-footer" v-if="isValid">
+				<div class="modal-footer" v-if="isValid && !isNotaName">
 				  <button type="button" class="btn btn-success btn-block mb-3 mx-1 rounded" @click.prevent="Start" data-dismiss="modal" >Start</button>
 				</div>
 			  </div>
@@ -103,7 +109,7 @@
 						<div v-if="finished==false && start==true"><p class="text-uppercase"><i class="fa fa-user"></i> {{name}}<p></div>
 				</div>
 			</div>
-			<div class="row pl-1 mx-auto" v-if="finished==false && start==true">
+			<div class="row pl-1 mx-auto my-auto" v-if="finished==false && start==true">
 				<div class="col-xl-9 col-lg-8 col-sm-11 mx-auto">
 					<div class="row">
 							<div class="col-6 pl-0 ml-0">
@@ -133,11 +139,11 @@
 			</div>
 		</div>
 					
-		<div class="text-center pb-5" v-if="finished===true" >
+		<div class="text-center" v-if="finished===true" >
 				<h5 class="text-center" >You have completed the test. Your score is</h5>
-				<p class="text-center display-4 p-2 text-danger">{{score}} / {{questions.length}}</p>
+				<p class="text-center display-4 p-2" :class="{'text-danger': isLow, 'text-primary': !isLow}">{{score}} / {{questions.length}}</p>
 				<p class="">Thank You!</p>
-				<button class="btn btn-secondary" @click.prevent="refresh()"> <i class="fa fa-refresh text-danger"></i> Restart</button>
+				<button class="btn btn-secondary" @click.prevent="refresh()"> <i class="fa fa-refresh text-white"></i> Restart</button>
 		</div>
 				
 				<!-- count = {{count}}<br>
@@ -160,8 +166,8 @@
 		</div>
 	</footer>
 	<!-- end of footer -->
-
 	</div>
+</div>
 	
 	
 
@@ -201,12 +207,18 @@
 					return false
 				}
 			},
-
+			isLow(){
+				if( this.score < this.questions.length){
+					return true;
+				}else{
+					return false;
+				}
+			},
 			cors(){
-				this.correct= this.questions[this.count].correct;
-				if(this.time==0){this.finished=true;}
-			}
-		},
+					this.correct= this.questions[this.count].correct;
+					if(this.time==0){this.finished=true;}
+				}
+			},
 		methods:{
 			Start: function(){
 				if(this.name!==""){
@@ -225,6 +237,7 @@
 			decrement: function(){
 				this.count--;
 			},
+
 			getScore: function(){
 				if(this.selected == this.correct){
 					this.score++;
@@ -250,8 +263,6 @@
 
 		},
 	})
-
-
 </script>
 </body>
 </html>
