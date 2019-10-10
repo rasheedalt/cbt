@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CBT TEST</title>
+	<!-- scripts & css -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+	<script src='js/axios.js'></script>
+	<script src="js/vue.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+	<link rel="stylesheet" href="font-awesome/css/font-awesome.css">
+
+	
+	<!-- end of scripts & css -->
+</head>
+<body>
+ <div id="app">
+	<!-- header -->
+	<section>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col text-center bg-dark text-white py-3 "><h2 class="font-weight-bold">SKY-VIEW TECHNOLOGIES</h1></div>
+			</div>
+		</div>
+		
+	</section>
+	<!-- end of header -->
+
+	<!-- title -->
+	<section>
+		<div class="row d-flex justify-content-center">
+			<div class="col-xl-8 col-lg-7" v-if="finished==false">
+					<div class="card rounded">
+							<div class="card-body">
+								<div class="row" >
+									<div class="col"><h5 class="text-center py-2">DEMO TEST</h5></div>
+								</div>
+								<div class="row card" v-if="start==false && finished==false">
+										<div class="col-lg-8 mx-lg-auto text-lg-center text-justify">
+											<p class="lead font-weight-bold text-center lead">
+												<!-- <i class="fa fa-file font-weight-light"></i>  -->
+												Instruction</p>
+											<p class="font-weight-light">This test comprise of 8 questions to be answered in 60 seconds (1 minute)
+												and the score will be displayed afterwards. <span class="text-danger font-weight-italic">Please, do not refresh the page while the test is going on.
+				</span></p></div>
+								</div>	
+								<div class="row" v-if="start==false && finished==false">
+									<div class="d-flex col-12 justify-content-center mt-4">
+										<button class="buttn p-2 btn-dark text-white p-1 round mx-auto" data-toggle='modal' data-target="#loginForm">Click here to Start <i class="fa fa-arrow-right"></i></button>
+									</div>
+								</div>		
+							</div>
+									
+						</div>
+
+			</div>
+		</div>
+		
+			
+	</section>
+	<!-- end of title -->
+
+	<!-- modal -->
+    <div v-if="start==false && finished==false" class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog " role="document">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <h5 class="modal-title text-dark bg-muted" id="exampleModalLabel">
+					  <i class="fa fa-user text-primary"></i> User Name</h5>
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				  </button>
+				</div>
+				<div class="modal-body">
+				  <form>
+					<div class="form-group pt-3">
+					  <!-- <label for="recipient-name" class="col-form-label">Your Name</label> -->
+					  <input type="text" class="form-control" 
+					  :class="{'valid' : isValid, 'sinput' : !isValid, 'invalid' : isNotaName } " v-model="name" placeholder="Type your name here...">
+					</div>
+				  </form>
+				</div>
+				<div class="modal-footer" v-if="isValid">
+				  <button type="button" class="btn btn-success btn-block mb-3 mx-1 rounded" @click.prevent="Start" data-dismiss="modal" >Start</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		<!-- end of modal -->
+	
+	
+		<!-- <div class="row" v-if="start==false && finished==false">
+			<div class="col-md-3"></div>
+		<div class="col-md-6"><input type="text" class="form-control" v-model="name" placeholder="PLEASE INPUT YOUR FULLNAME TO START"><br>
+		<button class="btn btn-success bt-large side" @click.prevent="Start" >Start</button></div>
+	</div> -->
+
+	<!-- question / options -->
+	<section>
+		<div class="container p-3 pb-4 mx-auto justify-content-center">
+			<div class="row pl-1">
+				<div class="col-xl-9 col-lg-8 mx-auto">
+						<div v-if="finished==false && start==true"><p class="text-uppercase"><i class="fa fa-user"></i> {{name}}<p></div>
+				</div>
+			</div>
+			<div class="row pl-1 mx-auto" v-if="finished==false && start==true">
+				<div class="col-xl-9 col-lg-8 col-sm-11 mx-auto">
+					<div class="row">
+							<div class="col-6 pl-0 ml-0">
+									<p class="text-left font-weight-light">Question <span class="font-weight-bold">{{count +1}} of {{questions.length}}</span></p>
+								</div>
+								<div class="col-6 ml-auto">
+										<p class="text-right">
+										<i class="fa fa-clock-o text-danger"></i><span class=""> Time: <span class="font-weight-bold" >{{time}}</span></span></p>
+								</div>
+					</div>
+				</div>		
+			</div>
+			<div class="row pl-2 pb-4">
+				<div class="col-xl-9 col-lg-8 col-md-11 col-sm-11 mx-auto" >
+						<div class="text-left lead" style="font-family: 'Raleway', sans-serif;" v-if="finished==false && start==true">{{questions[count].question}}</div>
+						<div class="alert alert-dark" v-if="finished==false && start==true" style="width:100% !important;">
+							<label >(a)<input class="radButton" type="radio"  :value="questions[count].opt1" v-model="selected" >{{questions[count].opt1}}</label><br>
+							<label >(b)<input class="radButton" type="radio"  :value="questions[count].opt2" v-model="selected" >{{questions[count].opt2}}</label><br>
+							<label >(c)<input class="radButton" type="radio"  :value="questions[count].opt3" v-model="selected" >{{questions[count].opt3}}</label><br>
+							<label >(d)<input class="radButton" type="radio"  :value="questions[count].opt4" v-model="selected" >{{questions[count].opt4}}</label><br>
+						</div>
+						<div class="pb-4">
+								<button class="btn btn-secondary" v-if="(count+1) < questions.length && finished==false && start==true" @click.prevent="increment" >Next</button>
+								<button class="btn btn-success" v-if="(count+1) == questions.length && finished==false && start==true" @click.prevent="getScore" >Submit</button>
+						</div>
+				</div>
+			</div>
+		</div>
+					
+		<div class="text-center pb-5" v-if="finished===true" >
+				<h5 class="text-center" >You have completed the test. Your score is</h5>
+				<p class="text-center display-4 p-2 text-danger">{{score}} / {{questions.length}}</p>
+				<p class="">Thank You!</p>
+				<button class="btn btn-secondary" @click.prevent="refresh()"> <i class="fa fa-refresh text-danger"></i> Restart</button>
+		</div>
+				
+				<!-- count = {{count}}<br>
+				selected = {{selected}}<br>
+				score = {{score}}<br>
+				correct = {{correct}}<br> -->
+				{{cors}}
+	</section>
+
+	<!-- end of question /options -->
+
+	<!-- footer -->
+	<footer>
+		<div class="container-fluid bg-secondary fixed-bottom">
+			<div class="row p-4">
+				<div class="col">
+					<p class="text-center text-light">&copy; Copyright Rasheed 2018</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- end of footer -->
+
+	</div>
+	
+	
+
+	<script src="js/jquery.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+<script>
+	let app= new Vue({
+		el: "#app",
+		data: {
+			 questions: [],
+			 count: 0,
+			 correct:0,
+			 selected:"",
+			 score:0,
+			 finished: false,
+			 time:61,
+			 name:"",
+			 start:false,
+		},
+
+		computed: {
+			genScore(){
+
+			},
+			isValid(){
+				if(/[a-z]{3,}/i.test(this.name)) {
+					return true
+				}else{
+					return false;
+				}
+			},
+			isNotaName(){
+				if(/[^a-zA-Z\s]+/.test(this.name)){
+					return true
+				}else{
+					return false
+				}
+			},
+
+			cors(){
+				this.correct= this.questions[this.count].correct;
+				if(this.time==0){this.finished=true;}
+			}
+		},
+		methods:{
+			Start: function(){
+				if(this.name!==""){
+				this.start=true;
+				setInterval(()=>{this.time--},1000);};
+				
+			},
+			increment: function(){
+				if(this.count< this.questions.length){
+					this.count++;};
+
+				if(this.selected == this.correct){
+					this.score++;}
+				
+			},
+			decrement: function(){
+				this.count--;
+			},
+			getScore: function(){
+				if(this.selected == this.correct){
+					this.score++;
+				}
+					
+				axios.get(`score.php?score=${this.score}&redirect=score.php`).then((response)=>{
+				console.log(response.data);
+				this.finished=true;
+				//console.log(this.questions.length);
+			})
+			},
+			refresh(){
+				location.reload()
+			}
+		},
+		
+		mounted(){
+			axios.get("questions.js").then((response)=>{
+				this.questions = response.data;
+				//console.log(this.questions);
+			})
+			
+
+		},
+	})
+
+
+</script>
+</body>
+</html>

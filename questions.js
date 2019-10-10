@@ -1,0 +1,5 @@
+[{"id":"1","classId":"1","question":"How many colours has the Nigerian flag?","opt1":"2","opt2":"3","opt3":"1","opt4":"4","correct":"2"},{"id":"2","classId":"1","question":"When did Nigeria become independent?","opt1":"1990","opt2":"1950","opt3":"1960","opt4":"1970","correct":"1960"},{"id":"3","classId":"1","question":"what is the capital of Nigeria?","opt1":"Lagos","opt2":"Kwara","opt3":"Abia","opt4":"Abuja","correct":"Abuja"},{"id":"5","classId":"2","question":"Which of the following is an example of a noun?","opt1":"boy","opt2":"stand","opt3":"sit","opt4":"come","correct":"boy"},{"id":"6","classId":"2","question":"Who is the president of Nigeria","opt1":"Buhari","opt2":"Yaya","opt3":"Fashola","opt4":"Tinubu","correct":"Buhari"},{"id":"14","classId":"2","question":"___ is a country in Africa?","opt1":"Ghana","opt2":"Cyprus","opt3":"Malta","opt4":"Russia","correct":"Ghana"},{"id":"15","classId":"1","question":"Pick the odd item out","opt1":"Europe","opt2":"Africa","opt3":"Canada","opt4":"Asia","correct":"Canada"},
+{"id":"16","classId":"2","question":"London is located in __","opt1":"UK","opt2":"USA","opt3":"Nigeria","opt4":"Kenya","correct":"UK"}]
+
+
+
